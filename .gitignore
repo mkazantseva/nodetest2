@@ -41,3 +41,18 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+#Custom
+*.log
+node_modules
+bin
+data
+
+#Idea files
+.idea
+*.ipr
+*.iws
+*.iml
+target/
+
+
