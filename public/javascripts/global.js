@@ -1,7 +1,5 @@
 // Userlist data array for filling in info box
 var userListData = [];
-//Current user id
-var currentUser;
 
 // DOM Ready =============================================================
 $(document).ready(function() {
@@ -61,7 +59,7 @@ function showUserInfo(event) {
     // Get our User Object
     var thisUserObject = userListData[arrayPosition];
 
-    currentUser = thisUserObject._id;
+    $('#btnUpdateUser').attr('data-currentUser', thisUserObject._id);
 
     //Populate Info Box
     $('#userInfoName').text(thisUserObject.fullname);
@@ -198,11 +196,11 @@ function updateUser(event) {
             'gender': $('#addUser fieldset input#inputUserGender').val()
         }
 
-        // Use AJAX to post the object to our adduser service
+        // Use AJAX to post the object to our updateuser service
         $.ajax({
             type: 'PUT',
             data: newUser,
-            url: '/users/updateuser/' + currentUser,
+            url: '/users/updateuser/' + $(this).attr('data-currentUser'),
             dataType: 'JSON'
         }).done(function( response ) {
 
