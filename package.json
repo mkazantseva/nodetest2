@@ -15,6 +15,6 @@
     "jade": "~1.6.0",
     "express3-handlebars" : "*",
     "mongodb": "*",
-    "mongoskin": "*"
+    "mongoose": "*"
   }
 }

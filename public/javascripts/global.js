@@ -94,8 +94,8 @@ function addUser(event) {
         // If it is, compile all user info into one object
         var newUser = {
             'username': $('#addUser fieldset input#inputUserName').val(),
-            'email': $('#addUser fieldset input#inputUserEmail').val(),
             'fullname': $('#addUser fieldset input#inputUserFullname').val(),
+            'email': $('#addUser fieldset input#inputUserEmail').val(),
             'age': $('#addUser fieldset input#inputUserAge').val(),
             'location': $('#addUser fieldset input#inputUserLocation').val(),
             'gender': $('#addUser fieldset input#inputUserGender').val()

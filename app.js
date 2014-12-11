@@ -8,8 +8,8 @@ var expressHandlebars = require('express3-handlebars');
 
 
 //Database
-var mongo = require('mongoskin');
-var db = mongo.db("mongodb://localhost:27017/nodetest2", {native_parser:true});
+var mongo = require('mongoose');
+var db = mongo.connect("mongodb://localhost:27017/nodetest2");
 
 var routes = require('./routes');
 

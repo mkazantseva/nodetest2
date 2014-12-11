@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var userSchema = require('../models/userSchema');
 
 /*
  * GET userlist.
  */
 router.get('/userlist', function(req, res) {
-    var db = req.db;
-    db.collection('userlist').find().toArray(function (err, items) {
-        res.json(items);
+    userSchema.find(function(err, users) {
+    			res.json(users);
     });
 });
 
@@ -15,11 +15,18 @@ router.get('/userlist', function(req, res) {
  * POST to adduser.
  */
 router.post('/adduser', function(req, res) {
-    var db = req.db;
-    db.collection('userlist').insert(req.body, function(err, result){
-        res.send(
-            (err === null) ? { msg: '' } : { msg: err }
-        );
+
+    var user = new userSchema(); 		// create a new instance of the model
+    user.username = req.body.username;
+    user.fullname = req.body.fullname;
+    user.email = req.body.email;
+    user.age = (!isNaN(parseInt(req.body.age)) ? req.body.age : undefined);
+    user.gender = req.body.gender;
+    user.location = req.body.location;
+
+    // save the user and check for errors
+    user.save(function(err) {
+    res.send((err === null) ? { msg: '' } : { msg: err });
     });
 });
 
@@ -27,10 +34,10 @@ router.post('/adduser', function(req, res) {
  * DELETE to deleteuser.
  */
 router.delete('/deleteuser/:id', function(req, res) {
-    var db = req.db;
-    var userToDelete = req.params.id;
-    db.collection('userlist').removeById(userToDelete, function(err, result) {
-        res.send((result === 1) ? { msg: '' } : { msg:'error: ' + err });
+    userSchema.remove({
+        _id: req.params.id
+    }, function(err, bear) {
+        res.send((err === null) ? { msg: '' } : { msg: err });
     });
 });
 
@@ -38,10 +45,21 @@ router.delete('/deleteuser/:id', function(req, res) {
  * UPDATE to updateuser.
  */
 router.put('/updateuser/:id', function(req, res) {
-    var db = req.db;
-    var userToUpdate = req.params.id;
-    db.collection('userlist').updateById(userToUpdate, req.body, function(err, result) {
-        res.send((result === 1) ? { msg: '' } : { msg:'error: ' + err });
+    userSchema.findById(req.params.id, function(err, user) {
+
+        if (err)
+            res.send(err);
+
+        user.username = req.body.username;
+        user.fullname = req.body.fullname;
+        user.email = req.body.email;
+        user.age = (IsNumeric(req.body.age) ? req.body.age : undefined);
+        user.gender = req.body.gender;
+        user.location = req.body.location;
+
+        user.save(function(err) {
+            res.send((err === null) ? { msg: '' } : { msg: err });
+        });
     });
 });
 
