@@ -12,7 +12,7 @@ $(document).ready(function() {
     // Username link click
     $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
 
-/*    $('#postList table tbody').on('click', 'td a.linkshowauthor', showAuthorInfo);*/
+    $('#postList table tbody').on('click', 'td a.linkshowauthor', showAuthorInfo);
     // Add User button click
     $('#btnAddUser').on('click', addUser);
     // Update User link click
@@ -67,7 +67,7 @@ function populateFeed() {
             feedContent += '<tr>';
             feedContent += '<td><strong>' + 'Title: </strong> ' + this.title;
             feedContent += '<td><strong>' + 'Author: </strong> ';
-            feedContent += '<a href="#" id="linkshowauthor'+ this.author +'" class="linkshowauthor" rel="' + this.author + '" title="Author">';
+            feedContent += '<a href="#" id="linkshowauthor'+ this.author +'" class="linkshowauthor" rel="' + this.author._id + '" title="Author">';
             feedContent += ' ' + this.author.username + ' ' + this.author.fullname + ' ';
             feedContent += '</a> <strong>Text:</strong> ' + this.text + '</td>';
             feedContent += '</tr><br><br>';
@@ -115,6 +115,40 @@ function showUserInfo(event) {
     $('#inputUserLocation').val(thisUserObject.location);
 
 };
+
+function showAuthorInfo(event) {
+
+    // Prevent Link from Firing
+    event.preventDefault();
+
+    var author_id = $(this).attr('rel');
+
+    // Get Index of object based on id value
+    var arrayPosition = userListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(author_id);
+
+    // Get our User Object
+    var thisUserObject = userListData[arrayPosition];
+
+    $('#btnUpdateUser').attr('data-currentUser', thisUserObject._id);
+    $('#btnAddPost').attr('data-currentUser', thisUserObject._id);
+
+    //Populate Info Box
+    $('#userInfoName').text(thisUserObject.fullname);
+    $('#userInfoAge').text(thisUserObject.age);
+    $('#userInfoGender').text(thisUserObject.gender);
+    $('#userInfoLocation').text(thisUserObject.location);
+
+    //Populate input
+    $('#inputUserName').val(thisUserObject.username);
+    $('#inputUserFullname').val(thisUserObject.fullname);
+    $('#inputUserEmail').val(thisUserObject.email);
+
+    $('#inputUserAge').val(thisUserObject.age);
+    $('#inputUserGender').val(thisUserObject.gender);
+    $('#inputUserLocation').val(thisUserObject.location);
+
+};
+
 
 // Add User
 function addUser(event) {

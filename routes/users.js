@@ -59,7 +59,7 @@ router.put('/updateuser/:id', function (req, res) {
         user.username = req.body.username;
         user.fullname = req.body.fullname;
         user.email = req.body.email;
-        user.age = (IsNumeric(req.body.age) ? req.body.age : undefined);
+        user.age = (!isNaN(req.body.age) ? req.body.age : undefined);
         user.gender = req.body.gender;
         user.location = req.body.location;
 
