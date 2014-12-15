@@ -1,19 +1,26 @@
 // Userlist data array for filling in info box
 var userListData = [];
+var postListData = [];
 
 // DOM Ready =============================================================
 $(document).ready(function() {
 
     // Populate the user table on initial page load
     populateTable();
+    // Populate the feed on initial page load
+    populateFeed();
     // Username link click
     $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
+
+/*    $('#postList table tbody').on('click', 'td a.linkshowauthor', showAuthorInfo);*/
     // Add User button click
     $('#btnAddUser').on('click', addUser);
     // Update User link click
     $('#btnUpdateUser').on('click', updateUser);
     // Delete User link click
     $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
+    // Add Post button click
+    $('#btnAddPost').on('click', addPost);
 
 });
 
@@ -44,6 +51,35 @@ function populateTable() {
     });
 };
 
+// Fill feed with data
+function populateFeed() {
+
+    // Empty content string
+    var feedContent = '';
+
+    // jQuery AJAX call for JSON
+    $.getJSON( '/posts/postlist', function( data ) {
+
+        postListData = data;
+
+        // For each item in our JSON, add a table row and cells to the content string
+        $.each(data, function(){
+            feedContent += '<tr>';
+            feedContent += '<td><strong>' + 'Title: </strong> ' + this.title;
+            feedContent += '<td><strong>' + 'Author: </strong> ';
+            feedContent += '<a href="#" id="linkshowauthor'+ this.author +'" class="linkshowauthor" rel="' + this.author + '" title="Author">';
+            feedContent += '</a> <strong>Text:</strong> ' + this.text + '</td>';
+            feedContent += '</tr><br><br>';
+            $.getJSON('users/users/' + this.author, function (data) {
+                $('#linkshowauthor' + data._id).text(' ' + data.username + ' ' + data.fullname + ' ');
+            });
+        });
+
+        // Inject the whole content string into our existing HTML table
+        $('#postList table tbody').html(feedContent);
+    });
+};
+
 // Show User Info
 function showUserInfo(event) {
 
@@ -60,6 +96,7 @@ function showUserInfo(event) {
     var thisUserObject = userListData[arrayPosition];
 
     $('#btnUpdateUser').attr('data-currentUser', thisUserObject._id);
+    $('#btnAddPost').attr('data-currentUser', thisUserObject._id);
 
     //Populate Info Box
     $('#userInfoName').text(thisUserObject.fullname);
@@ -212,6 +249,58 @@ function updateUser(event) {
 
                 // Update the table
                 populateTable();
+
+            }
+            else {
+
+                // If something goes wrong, alert the error message that our service returned
+                alert('Error: ' + response.msg);
+
+            }
+        });
+    }
+    else {
+        // If errorCount is more than 0, error out
+        alert('Please fill in all fields');
+        return false;
+    }
+};
+
+// Add Post
+function addPost(event) {
+    event.preventDefault();
+
+    // Super basic validation - increase errorCount variable if any fields are blank
+    var errorCount = 0;
+    $('#addPost input').each(function(index, val) {
+        if($(this).val() === '') { errorCount++; }
+    });
+
+    // Check and make sure errorCount's still at zero
+    if(errorCount === 0) {
+
+        var newPost = {
+            'title': $('#addPost fieldset input#inputPostTitle').val(),
+            'text': $('#addPost fieldset input#inputPostText').val(),
+            'author': $(this).attr('data-currentUser')
+        }
+
+        // Use AJAX to post the object to our adduser service
+        $.ajax({
+            type: 'POST',
+            data: newPost,
+            url: '/posts/addpost',
+            dataType: 'JSON'
+        }).done(function( response ) {
+
+            // Check for successful (blank) response
+            if (response.msg === '') {
+
+                // Clear the form inputs
+                $('#addPost fieldset input').val('');
+
+                // Update the table
+                populateFeed();
 
             }
             else {

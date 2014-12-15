@@ -56,3 +56,13 @@ fieldset {
 	border:0;
 	padding:0; margin:0;
 }
+
+#inputSection {
+	 padding-left:50px;
+	 position:relative;
+ }
+
+#postList {
+	padding-left:50px;
+	position:relative;
+}

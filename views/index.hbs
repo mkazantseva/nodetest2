@@ -3,6 +3,7 @@
 <div id="wrapper">
     <div id="userInfo">
         <h2>User Info</h2>
+
         <p>
             <strong>
                 Name:
@@ -24,7 +25,9 @@
                 <span id='userInfoLocation'></span>
             </strong>
         </p>
+
         <h2>User List</h2>
+
         <div id="userList">
             <table>
                 <thead>
@@ -36,7 +39,10 @@
             </table>
 
         </div>
+    </div>
+    <div id="inputSection">
         <h2>Add/Update User</h2>
+
         <div id="addUser">
             <fieldset>
                 <input id="inputUserName" type='text' placeholder='Username'>
@@ -49,8 +55,31 @@
                 <input id="inputUserGender" type='text' placeholder='gender'>
             </fieldset>
             <br>
-            <button id = "btnAddUser">Add User</button>
-            <button id = "btnUpdateUser">Update User</button>
+            <button id="btnAddUser">Add User</button>
+            <button id="btnUpdateUser">Update User</button>
         </div>
+        <br>
+
+        <h2>New post</h2>
+
+        <div id="addPost">
+            <fieldset>
+                <input id="inputPostTitle" type='text' placeholder='Title'>
+                <br>
+                <input id="inputPostText" type='text' placeholder='Text' maxlength="2000">
+            </fieldset>
+            <br>
+            <button id="btnAddPost">Add Post</button>
+        </div>
+        <br>
+    </div>
+    <div id="postList">
+        <h2>Feed</h2>
+        <table>
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
 </div>
