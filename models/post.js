@@ -1,7 +1,7 @@
-var mongoose     = require('mongoose');
-var Schema       = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var PostSchema   = new Schema({
+var PostSchema = new Schema({
     title: {
         required: true,
         type: String,
@@ -13,23 +13,9 @@ var PostSchema   = new Schema({
         max: 2000
     },
     author: {
-            type: Schema.Types.ObjectId,
-            ref: 'User'
-        }
-    /*,
-    comments: [{
-        text: {
-            type: String,
-            trim: true,
-            max:2000
-        },
-        author: {
-            id: {
-                type: Schema.Types.ObjectId,
-                ref: 'User'
-            }
-        }
-    }]*/
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 module.exports = mongoose.model('Post', PostSchema);
