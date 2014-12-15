@@ -7,7 +7,8 @@ var UserSchema   = new Schema({
 	email: String,
 	age: Number,
 	gender: String,
-	location: String
+	location: String,
+	entries: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
 });
 
 module.exports = mongoose.model('User', UserSchema);

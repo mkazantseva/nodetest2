@@ -68,11 +68,12 @@ function populateFeed() {
             feedContent += '<td><strong>' + 'Title: </strong> ' + this.title;
             feedContent += '<td><strong>' + 'Author: </strong> ';
             feedContent += '<a href="#" id="linkshowauthor'+ this.author +'" class="linkshowauthor" rel="' + this.author + '" title="Author">';
+            feedContent += ' ' + this.author.username + ' ' + this.author.fullname + ' ';
             feedContent += '</a> <strong>Text:</strong> ' + this.text + '</td>';
             feedContent += '</tr><br><br>';
-            $.getJSON('users/users/' + this.author, function (data) {
+/*            $.getJSON('users/users/' + this.author, function (data) {
                 $('#linkshowauthor' + data._id).text(' ' + data.username + ' ' + data.fullname + ' ');
-            });
+            });*/
         });
 
         // Inject the whole content string into our existing HTML table

@@ -21,7 +21,7 @@ router.route('/addpost')
 router.route('/postlist')
 
     .get(function (req, res) {
-        Entry.find(function (err, entries) {
+        Entry.find().populate('author').exec(function (err, entries) {
             res.json(entries);
         });
 

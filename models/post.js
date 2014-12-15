@@ -13,11 +13,10 @@ var PostSchema   = new Schema({
         max: 2000
     },
     author: {
-        id: {
             type: Schema.Types.ObjectId,
             ref: 'User'
         }
-    },
+    /*,
     comments: [{
         text: {
             type: String,
@@ -30,7 +29,7 @@ var PostSchema   = new Schema({
                 ref: 'User'
             }
         }
-    }]
+    }]*/
 });
 
 module.exports = mongoose.model('Post', PostSchema);
