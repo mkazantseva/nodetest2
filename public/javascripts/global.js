@@ -21,6 +21,8 @@ $(document).ready(function() {
     $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
     // Add Post button click
     $('#btnAddPost').on('click', addPost);
+    // Delete User link click
+    $('#postList table tbody').on('click', 'td a.linkdeletepost', deletePost);
 
 });
 
@@ -71,9 +73,7 @@ function populateFeed() {
             feedContent += ' ' + this.author.username + ' ' + this.author.fullname + ' ';
             feedContent += '</a> <strong>Text:</strong> ' + this.text + '</td>';
             feedContent += '</tr><br><br>';
-/*            $.getJSON('users/users/' + this.author, function (data) {
-                $('#linkshowauthor' + data._id).text(' ' + data.username + ' ' + data.fullname + ' ');
-            });*/
+            feedContent += '<tr><td><a href="#" id="linkdeletepost'+ this._id +'" class="linkdeletepost" rel="' + this._id + '">Delete</a></td></tr>';
         });
 
         // Inject the whole content string into our existing HTML table
@@ -351,5 +351,44 @@ function addPost(event) {
         alert('Please fill in all fields');
         return false;
     }
+};
+
+// Delete Post
+function deletePost(event) {
+
+    event.preventDefault();
+
+    // Pop up a confirmation dialog
+    var confirmation = confirm('Are you sure you want to delete this post?');
+
+    // Check and make sure the user confirmed
+    if (confirmation === true) {
+
+        // If they did, do our delete
+        $.ajax({
+            type: 'DELETE',
+            url: '/posts/posts/' + $(this).attr('rel')
+        }).done(function( response ) {
+
+            // Check for a successful (blank) response
+            if (response.msg === '') {
+            }
+            else {
+                alert('Error: ' + response.msg);
+            }
+
+            // Update the table
+            populateFeed();
+
+        });
+
+    }
+    else {
+
+        // If they said no to the confirm, do nothing
+        return false;
+
+    }
+
 };
 
