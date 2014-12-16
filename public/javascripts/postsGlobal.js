@@ -1,7 +1,6 @@
 var postListData = [];
 // DOM Ready =============================================================
-$(document).ready(function () {
-
+$(document).ready(function populateFeedRelated() {
     populateFeed();
     $('#postList table tbody').on('click', 'td a.linkshowauthor', showAuthorInfo);
     $('#postList table tbody').on('click', 'td a.linkdeletepost', deletePost);
@@ -14,15 +13,17 @@ function populateFeed() {
 
     $.getJSON('/posts/postlist', function (data) {
         postListData = data;
-        $.each(data, function () {
+        $.each(data, function compileEntry () {
             feedContent += '<tr>';
             feedContent += '<td><strong>' + 'Title: </strong> ' + this.title;
             feedContent += '<td><strong>' + 'Author: </strong> ';
-            feedContent += '<a href="#" id="linkshowauthor' + this.author + '" class="linkshowauthor" rel="' + this.author._id + '" title="Author">';
+            feedContent += '<a href="#" id="linkshowauthor' + this.author + '" class="linkshowauthor" rel="'
+                + this.author._id + '" title="Author">';
             feedContent += ' ' + this.author.username + ' ' + this.author.fullname + ' ';
             feedContent += '</a> <strong>Text:</strong> ' + this.text + '</td>';
             feedContent += '</tr><br><br>';
-            feedContent += '<tr><td><a href="#" id="linkdeletepost' + this._id + '" class="linkdeletepost" rel="' + this._id + '">Delete</a></td></tr>';
+            feedContent += '<tr><td><a href="#" id="linkdeletepost' + this._id + '" class="linkdeletepost" rel="'
+                + this._id + '">Delete</a></td></tr>';
         });
 
         $('#postList table tbody').html(feedContent);
@@ -64,7 +65,7 @@ function addPost(event) {
             data: newPost,
             url: '/posts/addpost',
             dataType: 'JSON'
-        }).done(function (response) {
+        }).done(function doneAddEntry (response) {
             if (response.msg === '') {
                 $('#addPost fieldset input').val('');
                 populateFeed();
@@ -88,8 +89,8 @@ function deletePost(event) {
     if (confirmation === true) {
         $.ajax({
             type: 'DELETE',
-            url: '/posts/posts/' + $(this).attr('rel')
-        }).done(function (response) {
+            url: '/posts/' + $(this).attr('rel')
+        }).done(function doneDeleteEntry (response) {
             if (response.msg === '') {
             }
             else {

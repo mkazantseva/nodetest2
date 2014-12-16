@@ -2,7 +2,7 @@
 var userListData = [];
 
 // DOM Ready =============================================================
-$(document).ready(function () {
+$(document).ready(function populateUserRelated() {
 
     populateTable();
     $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
@@ -14,14 +14,14 @@ $(document).ready(function () {
 // Functions =============================================================
 
 function populateTable() {
-
     var tableContent = '';
 
     $.getJSON('/users/userlist', function (data) {
         userListData = data;
         $.each(data, function createUserTable() {
             tableContent += '<tr>';
-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.username + '" title="Show Details">' + this.username + '</a></td>';
+            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.username + '" title="Show Details">'
+                + this.username + '</a></td>';
             tableContent += '<td>' + this.email + '</td>';
             tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
             tableContent += '</tr>';
@@ -62,7 +62,7 @@ function addUser(event) {
             data: newUser,
             url: '/users/adduser',
             dataType: 'JSON'
-        }).done(function (response) {
+        }).done(function doneAddUser (response) {
 
             if (response.msg === '') {
                 $('#addUser fieldset input').val('');
@@ -80,7 +80,6 @@ function addUser(event) {
 };
 
 function deleteUser(event) {
-
     event.preventDefault();
 
     var confirmation = confirm('Are you sure you want to delete this user?');
@@ -88,8 +87,8 @@ function deleteUser(event) {
     if (confirmation === true) {
         $.ajax({
             type: 'DELETE',
-            url: '/users/deleteuser/' + $(this).attr('rel')
-        }).done(function (response) {
+            url: '/users/' + $(this).attr('rel')
+        }).done(function doneDeleteUser (response) {
             if (response.msg === '') {
             }
             else {
@@ -123,9 +122,9 @@ function updateUser(event) {
         $.ajax({
             type: 'PUT',
             data: newUser,
-            url: '/users/updateuser/' + $(this).attr('data-currentUser'),
+            url: '/users/' + $(this).attr('data-currentUser'),
             dataType: 'JSON'
-        }).done(function (response) {
+        }).done(function doneUpdateUser (response) {
             if (response.msg === '') {
                 $('#addUser fieldset input').val('');
 

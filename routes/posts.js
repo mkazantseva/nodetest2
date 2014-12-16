@@ -22,7 +22,7 @@ router.route('/postlist')
 
     });
 
-router.route('/posts/:entry_id')
+router.route('/:entry_id')
     .get(function (req, res) {
         Entry.findById(req.params.entry_id, function (err, entry) {
             res.send((err === null) ? {msg: ''} : {msg: err});

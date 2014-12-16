@@ -24,7 +24,7 @@ router.post('/adduser', function (req, res) {
     });
 });
 
-router.delete('/deleteuser/:id', function (req, res) {
+router.delete('/:id', function (req, res) {
     User.remove({
         _id: req.params.id
     }, function (err, bear) {
@@ -32,7 +32,7 @@ router.delete('/deleteuser/:id', function (req, res) {
     });
 });
 
-router.put('/updateuser/:id', function (req, res) {
+router.put('/:id', function (req, res) {
     User.findById(req.params.id, function (err, user) {
         if (err)
             res.send(err);
