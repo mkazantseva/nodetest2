@@ -11,9 +11,7 @@ var expressHandlebars = require('express3-handlebars');
 var mongo = require('mongoose');
 var db = mongo.connect("mongodb://localhost:27017/nodetest2");
 
-var routes = require('./routes');
-
-var app = express();
+var app = require('./routes')(express);
 
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
@@ -34,10 +32,6 @@ app.use(function(req,res,next){
     req.db = db;
     next();
 });
-
-app.use('/', routes.router);
-app.use('/users', routes.users);
-app.use('/posts', routes.posts);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,13 +1,17 @@
-var express = require('express');
-var router = express.Router();
+var users = require('./users');
+var posts = require('./posts');
 
-/* GET home page. */
-router.get('/', function (req, res) {
-    res.render('index', {title: 'Express'});
-});
+module.exports = function (express) {
+    var router = express.Router();
+    var app = express();
 
-module.exports = {
-    router: router,
-    users: require('./users'),
-    posts: require('./posts')
-}
+    /* GET home page. */
+    router.get('/', function (req, res) {
+        res.render('index', {title: 'Express'});
+    });
+
+    app.use('/', router);
+    app.use('/users', users);
+    app.use('/posts', posts);
+    return app;
+};
