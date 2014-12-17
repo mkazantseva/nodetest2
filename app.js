@@ -8,10 +8,10 @@ var expressHandlebars = require('express3-handlebars');
 
 
 //Database
-var mongo = require('mongoose');
-var db = mongo.connect("mongodb://localhost:27017/nodetest2");
+var mongoose = require('mongoose');
+var db = mongoose.connect("mongodb://localhost:27017/nodetest2");
 
-var app = require('./routes')(express);
+var app = express();
 
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
@@ -26,6 +26,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var routes = require('./routes')(express, app, mongoose);
 
 // Make our db accessible to our router
 app.use(function(req,res,next){

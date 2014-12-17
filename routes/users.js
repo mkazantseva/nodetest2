@@ -1,41 +1,21 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../models/user');
+module.exports = function (express, mongoose) {
+    var router = express.Router();
+    var User = require('../models/user')(mongoose);
 
-router.get('/userlist', function (req, res) {
-    User.find(function (err, users) {
-        res.json(users);
+    router.get('/userlist', function (req, res) {
+        User.find(function (err, users) {
+            res.json(users);
+        });
     });
-});
 
-router.get('/users/:user_id', function (req, res) {
-    User.findById(req.params.user_id, function (err, user) {
-        res.json(user);
+    router.get('/users/:user_id', function (req, res) {
+        User.findById(req.params.user_id, function (err, user) {
+            res.json(user);
+        });
     });
-});
 
-router.post('/adduser', function (req, res) {
-    var user = new User();
-
-    fillUserFromRequest(user, req);
-
-    user.save(function (err) {
-        res.send((err === null) ? {msg: ''} : {msg: err});
-    });
-});
-
-router.delete('/:id', function (req, res) {
-    User.remove({
-        _id: req.params.id
-    }, function (err, bear) {
-        res.send((err === null) ? {msg: ''} : {msg: err});
-    });
-});
-
-router.put('/:id', function (req, res) {
-    User.findById(req.params.id, function (err, user) {
-        if (err)
-            res.send(err);
+    router.post('/adduser', function (req, res) {
+        var user = new User();
 
         fillUserFromRequest(user, req);
 
@@ -43,7 +23,29 @@ router.put('/:id', function (req, res) {
             res.send((err === null) ? {msg: ''} : {msg: err});
         });
     });
-});
+
+    router.delete('/:id', function (req, res) {
+        User.remove({
+            _id: req.params.id
+        }, function (err, bear) {
+            res.send((err === null) ? {msg: ''} : {msg: err});
+        });
+    });
+
+    router.put('/:id', function (req, res) {
+        User.findById(req.params.id, function (err, user) {
+            if (err)
+                res.send(err);
+
+            fillUserFromRequest(user, req);
+
+            user.save(function (err) {
+                res.send((err === null) ? {msg: ''} : {msg: err});
+            });
+        });
+    });
+    return router;
+}
 
 function fillUserFromRequest(user, req) {
     user.username = req.body.username;
@@ -54,4 +56,3 @@ function fillUserFromRequest(user, req) {
     user.location = req.body.location;
 }
 
-module.exports = router;
