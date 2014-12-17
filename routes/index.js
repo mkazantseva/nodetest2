@@ -1,7 +1,7 @@
 module.exports = function (express, app, mongoose, models) {
-    var users = require('./users')(express, mongoose, models);
-    var posts = require('./posts')(express, mongoose, models);
     var router = express.Router();
+    require('./users')(router, mongoose, models);
+    require('./posts')(router, mongoose, models);
 
     /* GET home page. */
     router.get('/', function (req, res) {
@@ -9,6 +9,4 @@ module.exports = function (express, app, mongoose, models) {
     });
 
     app.use('/', router);
-    app.use('/users', users);
-    app.use('/posts', posts);
 };

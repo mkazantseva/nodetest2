@@ -1,8 +1,7 @@
-module.exports = function (express, mongoose, models) {
-    var router = express.Router();
+module.exports = function (router, mongoose, models) {
     var User = models.User;
 
-    router.get('/userlist', function (req, res) {
+    router.get('/users/userlist', function (req, res) {
         User.find(function (err, users) {
             res.json(users);
         });
@@ -14,7 +13,7 @@ module.exports = function (express, mongoose, models) {
         });
     });
 
-    router.post('/adduser', function (req, res) {
+    router.post('/users/adduser', function (req, res) {
         var user = new User();
 
         fillUserFromRequest(user, req);
@@ -24,7 +23,7 @@ module.exports = function (express, mongoose, models) {
         });
     });
 
-    router.delete('/:id', function (req, res) {
+    router.delete('/users/:id', function (req, res) {
         User.remove({
             _id: req.params.id
         }, function (err, bear) {
@@ -32,7 +31,7 @@ module.exports = function (express, mongoose, models) {
         });
     });
 
-    router.put('/:id', function (req, res) {
+    router.put('/users/:id', function (req, res) {
         User.findById(req.params.id, function (err, user) {
             if (err)
                 res.send(err);
@@ -44,7 +43,6 @@ module.exports = function (express, mongoose, models) {
             });
         });
     });
-    return router;
 }
 
 function fillUserFromRequest(user, req) {

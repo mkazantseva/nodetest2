@@ -1,8 +1,7 @@
-module.exports = function (express, mongoose, models) {
-    var router = express.Router();
+module.exports = function (router, mongoose, models) {
     var Entry = models.Post;
 
-    router.route('/addpost')
+    router.route('/posts/addpost')
         .post(function (req, res) {
             var entry = new Entry();
 
@@ -14,7 +13,7 @@ module.exports = function (express, mongoose, models) {
 
         });
 
-    router.route('/postlist')
+    router.route('/posts/postlist')
         .get(function (req, res) {
             Entry.find().populate('author').exec(function (err, entries) {
                 res.json(entries);
@@ -22,7 +21,7 @@ module.exports = function (express, mongoose, models) {
 
         });
 
-    router.route('/:entry_id')
+    router.route('/posts/:entry_id')
         .get(function (req, res) {
             Entry.findById(req.params.entry_id, function (err, entry) {
                 res.send((err === null) ? {msg: ''} : {msg: err});
@@ -46,7 +45,6 @@ module.exports = function (express, mongoose, models) {
                 res.send((err === null) ? {msg: ''} : {msg: err});
             });
         });
-    return router;
 }
 
 function fillEntryFromRequest(entry, req) {
