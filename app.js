@@ -27,7 +27,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var routes = require('./routes')(express, app, mongoose);
+var models = require('./models/models')(mongoose);
+var routes = require('./routes')(express, app, mongoose, models);
 
 // Make our db accessible to our router
 app.use(function(req,res,next){

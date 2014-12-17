@@ -1,6 +1,6 @@
-module.exports = function (express, mongoose) {
+module.exports = function (express, mongoose, models) {
     var router = express.Router();
-    var User = require('../models/user')(mongoose);
+    var User = models.User;
 
     router.get('/userlist', function (req, res) {
         User.find(function (err, users) {

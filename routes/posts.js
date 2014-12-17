@@ -1,6 +1,6 @@
-module.exports = function (express, mongoose) {
+module.exports = function (express, mongoose, models) {
     var router = express.Router();
-    var Entry = require('../models/post')(mongoose);
+    var Entry = models.Post;
 
     router.route('/addpost')
         .post(function (req, res) {

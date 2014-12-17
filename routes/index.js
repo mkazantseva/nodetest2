@@ -1,6 +1,6 @@
-module.exports = function (express, app, mongoose) {
-    var users = require('./users')(express, mongoose);
-    var posts = require('./posts')(express, mongoose);
+module.exports = function (express, app, mongoose, models) {
+    var users = require('./users')(express, mongoose, models);
+    var posts = require('./posts')(express, mongoose, models);
     var router = express.Router();
 
     /* GET home page. */
