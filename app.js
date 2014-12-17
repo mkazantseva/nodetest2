@@ -28,7 +28,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var models = require('./models/models')(mongoose);
-require('./routes')(express, app, mongoose, models);
+var router = express.Router();
+require('./routes')(router, app, models);
 
 // Make our db accessible to our router
 app.use(function(req,res,next){

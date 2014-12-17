@@ -1,4 +1,4 @@
-module.exports = function (router, mongoose, models) {
+module.exports = function (router, models) {
     var Entry = models.Post;
 
     router.route('/posts/addpost')
